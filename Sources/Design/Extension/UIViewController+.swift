@@ -1,8 +1,15 @@
-//
-//  File.swift
-//  hwan-kit
-//
-//  Created by hwan on 7/21/25.
-//
 
-import Foundation
+
+#if canImport(UIKit)
+import UIKit
+
+public extension UIViewController {
+    var windowWidth: CGFloat {
+        view.window?.windowScene?.screen.bounds.width ?? UIScreen.main.bounds.width
+    }
+    var windowHeight: CGFloat {
+        view.window?.windowScene?.screen.bounds.height ?? UIScreen.main.bounds.height
+    }
+}
+
+#endif
