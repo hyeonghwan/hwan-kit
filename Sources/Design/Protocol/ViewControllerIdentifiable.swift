@@ -2,11 +2,11 @@
 
 import UIKit
 
-protocol VCIdentifiable {
+protocol ViewControllerIdentifiable {
     static var id: String { get }
 }
 
-extension VCIdentifiable {
+extension ViewControllerIdentifiable {
     static var id: String {
         String(describing: Self.self)
     }

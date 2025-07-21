@@ -1,8 +1,15 @@
-//
-//  File.swift
-//  hwan-kit
-//
-//  Created by hwan on 7/21/25.
-//
+#if canImport(UIKit)
 
-import Foundation
+import UIKit
+
+public protocol CellIdentifialble {
+    static var id: String { get }
+}
+
+public extension CellIdentifialble {
+    static var id: String {
+        String(describing: Self.self)
+    }
+}
+
+#endif
