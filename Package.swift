@@ -31,7 +31,7 @@ let package = Package(
         .target(
             name: "Design",
             dependencies: [
-                
+                .product(name: "Kingfisher", package: "Kingfisher")
             ]
         ),
         .testTarget(
