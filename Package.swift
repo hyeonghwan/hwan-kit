@@ -5,20 +5,38 @@ import PackageDescription
 
 let package = Package(
     name: "hwan-kit",
+    platforms: [
+        .iOS(.v15)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "hwan-kit",
-            targets: ["hwan-kit"]),
+            name: "HwanKit",
+            targets: ["HwanKit"]
+        ),
+        .library(
+            name: "Design",
+            targets: ["Design"]
+        ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: Version(8, 4, 0)))
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "hwan-kit"),
+            name: "HwanKit",
+            dependencies: [
+                .target(name: "Design")
+            ]
+        ),
+        .target(
+            name: "Design",
+            dependencies: [
+                
+            ]
+        ),
         .testTarget(
-            name: "hwan-kitTests",
-            dependencies: ["hwan-kit"]
+            name: "HwanKitTests",
+            dependencies: ["HwanKit"]
         ),
     ]
 )
