@@ -4,6 +4,25 @@
 import UIKit
 
 public extension UILabel {
+    
+    func isTruncated(width: CGFloat, height: CGFloat) -> Bool {
+        guard let labelText = self.text else { return false }
+        let requiredSize = CGSize(
+            width: width,
+            height: CGFloat.greatestFiniteMagnitude
+        )
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: self.font!
+        ]
+        let requiredRect = labelText.boundingRect(
+            with: requiredSize,
+            options: .usesLineFragmentOrigin,
+            attributes: attributes,
+            context: nil
+        )
+        return requiredRect.height > height
+    }
+    
     func isTruncated(with constrainedHeight: CGFloat) -> Bool {
         guard let labelText = self.text else { return false }
         let requiredSize = CGSize(
