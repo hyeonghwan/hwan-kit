@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 @MainActor
-extension KingfisherWrapper where Base == KFCrossPlatformImageView {
+public extension KingfisherWrapper where Base == KFCrossPlatformImageView {
     
     mutating func downSizingImage(url: URL, size: CGSize) {
         let processor = DownsamplingImageProcessor(
