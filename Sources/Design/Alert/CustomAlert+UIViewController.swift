@@ -7,7 +7,7 @@ public extension UIViewController {
     func showAlert(
         title: String,
         message: String,
-        action: [AlertAction] = []
+        action: AlertAction...
     ) {
         let content = AlertContent(
             base: self,
