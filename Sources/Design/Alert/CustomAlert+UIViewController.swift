@@ -98,7 +98,7 @@ final class CustomAlertViewController: BaseViewController {
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.alignment = .fill
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
