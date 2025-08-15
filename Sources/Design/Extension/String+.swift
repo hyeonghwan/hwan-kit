@@ -1,8 +1,6 @@
 
 #if canImport(UIKit)
 import UIKit
-#endif
-import Foundation
 
 public extension String {
     var isNotEmpty: Bool { !isEmpty }
@@ -63,4 +61,4 @@ private extension NSRange {
 extension NSAttributedString: @unchecked @retroactive Sendable {
     static let separator = NSAttributedString(string: ", ")
 }
-
+#endif

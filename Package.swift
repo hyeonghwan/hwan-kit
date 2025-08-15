@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "hwan-kit",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v15), .macOS(.v13)
     ],
     products: [
         .library(
@@ -17,9 +17,14 @@ let package = Package(
             name: "Design",
             targets: ["Design"]
         ),
+        .library(
+            name: "APIClient",
+            targets: ["APIClient"]
+        )
     ],
     dependencies: [
-        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: Version(8, 4, 0)))
+        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: Version(8, 4, 0))),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: Version(5, 10, 0)))
     ],
     targets: [
         .target(
@@ -32,6 +37,12 @@ let package = Package(
             name: "Design",
             dependencies: [
                 .product(name: "Kingfisher", package: "Kingfisher")
+            ]
+        ),
+        .target(
+            name: "APIClient",
+            dependencies: [
+                .product(name: "Alamofire", package: "Alamofire")
             ]
         ),
         .testTarget(
