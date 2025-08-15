@@ -20,6 +20,10 @@ let package = Package(
         .library(
             name: "APIClient",
             targets: ["APIClient"]
+        ),
+        .library(
+            name: "CustomObservable",
+            targets: ["CustomObservable"]
         )
     ],
     dependencies: [
@@ -46,6 +50,9 @@ let package = Package(
                 .product(name: "Alamofire", package: "Alamofire")
             ]
         ),
+        
+        .target(name: "CustomObservable"),
+        
         .testTarget(
             name: "HwanKitTests",
             dependencies: ["HwanKit"]
