@@ -30,7 +30,8 @@ let package = Package(
         .target(
             name: "HwanKit",
             dependencies: [
-                .target(name: "Design")
+                .target(name: "Design"),
+                .target(name: "APIClient")
             ]
         ),
         .target(
