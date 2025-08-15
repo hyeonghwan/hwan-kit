@@ -10,6 +10,11 @@ import Foundation
 
 
 public final class LazyObservable<Element: Sendable>: BaseObservable<Element> {
+    
+    public override init() {
+        super.init()
+    }
+    
     public lazy var source: (_ element: Event<Element>) -> Void = { [weak self] event in
         switch event {
         case let .next(element):
