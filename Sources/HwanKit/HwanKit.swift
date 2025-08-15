@@ -1,5 +1,7 @@
 @_exported import Design
 @_exported import APIClient
+@_exported import CustomObservable
+
 import Foundation
 
 public struct HwanKitManager {

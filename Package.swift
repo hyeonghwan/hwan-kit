@@ -35,7 +35,8 @@ let package = Package(
             name: "HwanKit",
             dependencies: [
                 .target(name: "Design"),
-                .target(name: "APIClient")
+                .target(name: "APIClient"),
+                .target(name: "CustomObservable")
             ]
         ),
         .target(
