@@ -23,8 +23,8 @@ public final class DefaultAPIClient: APIClient {
     private var encoder: URLQueryEncoder
     
     public init(registry: AFSessionRegistry,
-         decoder: JSONDecoder = .init(),
-         encoder: URLQueryEncoder = .init())
+                decoder: JSONDecoder = .init(),
+                encoder: URLQueryEncoder = .init())
     {
         self.defaultDecoder = decoder
         self.registry = registry
@@ -37,7 +37,10 @@ public final class DefaultAPIClient: APIClient {
                                           using encoder: URLQueryEncoder) throws -> URLRequest
     {
         guard let baseURL = request.url,
-              var comps = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
+              var comps = URLComponents(
+                url: baseURL,
+                resolvingAgainstBaseURL: false
+              )
         else { throw URLError(.badURL) }
         
         let items = try encoder.encode(query)
@@ -50,11 +53,15 @@ public final class DefaultAPIClient: APIClient {
         return request
     }
     
-    func execute<Resource: APIResource, DTO: Decodable & Sendable>(resource: Resource,
-                                                                   decodeType: DTO.Type,
-                                                                   using profile: SessionType = .default,
-                                                                   decoder: JSONDecoder? = nil,
-                                                                   completion: @escaping @Sendable (Result<DTO, Error>) -> Void)
+    public func execute<Resource: APIResource, DTO: Decodable & Sendable>(
+        resource: Resource,
+        decodeType: DTO.Type,
+        using profile: SessionType = .default,
+        decoder: JSONDecoder? = nil,
+        completion: @escaping @Sendable (
+            Result<DTO, Error>
+        ) -> Void
+    )
     {
         do {
             let urlRequest = try resource.urlRequest()
@@ -62,7 +69,10 @@ public final class DefaultAPIClient: APIClient {
             
             session.request(urlRequest, interceptor: .retryPolicy)
                 .validate(statusCode: 200..<300)
-                .responseDecodable(of: DTO.self, decoder: decoder ?? defaultDecoder) { result in
+                .responseDecodable(
+                    of: DTO.self,
+                    decoder: decoder ?? defaultDecoder
+                ) { result in
                     switch result.result {
                     case let .success(dto):
                         completion(.success(dto))
@@ -76,10 +86,10 @@ public final class DefaultAPIClient: APIClient {
         }
     }
     
-    func execute<Resource: APIResource, DTO: Decodable & Sendable>(resource: Resource,
-                                                                   decodeType: DTO.Type,
-                                                                   using profile: SessionType = .default,
-                                                                   decoder: JSONDecoder? = nil) async -> Result<DTO, any Error>
+    public func execute<Resource: APIResource, DTO: Decodable & Sendable>(resource: Resource,
+                                                                          decodeType: DTO.Type,
+                                                                          using profile: SessionType = .default,
+                                                                          decoder: JSONDecoder? = nil) async -> Result<DTO, any Error>
     {
         do {
             let req = try resource.urlRequest()
@@ -87,7 +97,10 @@ public final class DefaultAPIClient: APIClient {
             
             let dataTask = session.request(req, interceptor: .retryPolicy)
                 .validate(statusCode: 200..<300)
-                .serializingDecodable(DTO.self, decoder: decoder ?? self.defaultDecoder)
+                .serializingDecodable(
+                    DTO.self,
+                    decoder: decoder ?? self.defaultDecoder
+                )
             
             let value = try await dataTask.value
             return .success(value)
@@ -95,12 +108,12 @@ public final class DefaultAPIClient: APIClient {
             return .failure(error)
         }
     }
-        
+    
     @preconcurrency
-    func execute<Resource: APIResource, DTO: Decodable & Sendable>(resource: Resource,
-                                                                   decodeType: DTO.Type,
-                                                                   using profile: SessionType = .default,
-                                                                   decoder: JSONDecoder? = nil) -> AnyPublisher<DTO, any Error>
+    public func execute<Resource: APIResource, DTO: Decodable & Sendable>(resource: Resource,
+                                                                          decodeType: DTO.Type,
+                                                                          using profile: SessionType = .default,
+                                                                          decoder: JSONDecoder? = nil) -> AnyPublisher<DTO, any Error>
     {
         var dataRequest: DataRequest?
         
@@ -112,14 +125,25 @@ public final class DefaultAPIClient: APIClient {
                     }
                     var urlRequest = try resource.urlRequest()
                     if let query = resource.query {
-                        urlRequest = try self.appendingQuery(to: urlRequest, query: query, using: self.encoder)
+                        urlRequest = try self
+                            .appendingQuery(
+                                to: urlRequest,
+                                query: query,
+                                using: self.encoder
+                            )
                     }
                     let session = self.registry.session(for: profile)
                     let decoder = decoder ?? self.defaultDecoder
-
-                    let request = session.request(urlRequest, interceptor: .retryPolicy)
+                    
+                    let request = session.request(
+                        urlRequest,
+                        interceptor: .retryPolicy
+                    )
                         .validate(statusCode: 200..<300)
-                        .responseDecodable(of: DTO.self, decoder: decoder) { result in
+                        .responseDecodable(
+                            of: DTO.self,
+                            decoder: decoder
+                        ) { result in
                             switch result.result {
                             case .success(let dto):
                                 promise(.success(dto))
@@ -127,7 +151,7 @@ public final class DefaultAPIClient: APIClient {
                                 promise(.failure(error))
                             }
                         }
-
+                    
                     dataRequest = request
                     
                 } catch {
