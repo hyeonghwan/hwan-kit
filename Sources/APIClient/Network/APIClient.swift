@@ -64,7 +64,15 @@ public final class DefaultAPIClient: APIClient {
     )
     {
         do {
-            let urlRequest = try resource.urlRequest()
+            var urlRequest = try resource.urlRequest()
+            if let query = resource.query {
+                urlRequest = try self
+                    .appendingQuery(
+                        to: urlRequest,
+                        query: query,
+                        using: self.encoder
+                    )
+            }
             let session = registry.session(for: profile)
             
             session.request(urlRequest, interceptor: .retryPolicy)
@@ -92,10 +100,18 @@ public final class DefaultAPIClient: APIClient {
                                                                           decoder: JSONDecoder? = nil) async -> Result<DTO, any Error>
     {
         do {
-            let req = try resource.urlRequest()
+            var urlRequest = try resource.urlRequest()
+            if let query = resource.query {
+                urlRequest = try self
+                    .appendingQuery(
+                        to: urlRequest,
+                        query: query,
+                        using: self.encoder
+                    )
+            }
             let session = registry.session(for: profile)
             
-            let dataTask = session.request(req, interceptor: .retryPolicy)
+            let dataTask = session.request(urlRequest, interceptor: .retryPolicy)
                 .validate(statusCode: 200..<300)
                 .serializingDecodable(
                     DTO.self,
