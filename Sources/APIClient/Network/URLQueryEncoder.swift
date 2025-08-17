@@ -8,13 +8,13 @@
 import Foundation
 
 public final class URLQueryEncoder {
-    let encoder: JSONEncoder
+    private let encoder: JSONEncoder
     
-    init(encoder: JSONEncoder = JSONEncoder()) {
+    public init(encoder: JSONEncoder = JSONEncoder()) {
         self.encoder = encoder
     }
     
-    func encode<T: Encodable>(_ value: T) throws -> [URLQueryItem] {
+    public func encode<T: Encodable>(_ value: T) throws -> [URLQueryItem] {
         let data = try encoder.encode(value)
         let obj = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
         return flatten(obj).map {

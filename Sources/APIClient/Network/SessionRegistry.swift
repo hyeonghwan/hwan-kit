@@ -25,7 +25,7 @@ public final class AFSessionRegistry: SessionRegistry {
     private let lock = NSLock()
     private let monitor: EventMonitor?
     
-    init(monitor: EventMonitor) {
+    public init(monitor: EventMonitor) {
         self.monitor = monitor
     }
     

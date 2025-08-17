@@ -22,7 +22,7 @@ public final class DefaultAPIClient: APIClient {
     private var registry: AFSessionRegistry
     private var encoder: URLQueryEncoder
     
-    init(registry: AFSessionRegistry,
+    public init(registry: AFSessionRegistry,
          decoder: JSONDecoder = .init(),
          encoder: URLQueryEncoder = .init())
     {
